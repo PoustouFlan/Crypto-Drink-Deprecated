@@ -44,14 +44,6 @@ async def main():
     await init()
     await load()
 
-    scoreboard = await Scoreboard.all()
-    if len(scoreboard) == 0:
-        log.info("Aucun scoreboard n'existe. Création du scoreboard")
-        await Scoreboard.create()
-        log.info("Scoreboard créé avec succès")
-    else:
-        log.info("Un scoreboard est déjà existant.")
-
     await bot.start(TOKEN)
 
 asyncio.run(main())

@@ -79,6 +79,7 @@ class User(Model):
         return f"{self.username} (#{self.rank})"
 
 class Scoreboard(Model):
+    id    = fields.UUIDField(pk = True)
     users = fields.ManyToManyField('models.User')
 
     async def add_user(self, user: User):
