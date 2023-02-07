@@ -1,6 +1,7 @@
 from tortoise.models import Model
 from tortoise import fields
 from datetime import datetime
+import logging
 
 strptime = lambda date: datetime.strptime(date, '%d %b %Y')
 
@@ -14,17 +15,18 @@ class Challenge(Model):
 
     @classmethod
     async def from_json(cls, json):
+        json['date'] = strptime(json['date'])
         challenge = await cls.filter(name = json['name'])
         assert len(challenge) <= 1, (
             "Deux challenges portent le même nom !"
         )
         
         if len(challenge) == 1:
-            print(f"Le challenge {json['name']} existe déjà.")
+            logging.info(f"Le challenge {json['name']} existe déjà.")
+            challenge[0].update(**json)
             return challenge[0]
 
-        print(f"Le challenge {json['name']} n'existe pas.")
-        json['date'] = strptime(json['date'])
+        logging.info(f"Le challenge {json['name']} n'existe pas.")
         return await cls.create(**json)
 
     def __str__(self):
@@ -44,24 +46,27 @@ class User(Model):
 
     @classmethod
     async def from_json(cls, json):
+        solved_challenges = [
+            await Challenge.from_json(challenge)
+            for challenge in json['solved_challenges']
+        ]
+        del json['solved_challenges']
+        json['joined'] = strptime(json['joined'])
+
         user = await cls.filter(username = json['username'])
         assert len(user) <= 1, (
             "Deux utilisateurs ont le même identifiant !"
         )
 
         if len(user) == 1:
-            print(f"L'utilisateur {json['username']} existe déjà.")
+            logging.info(f"L'utilisateur {json['username']} existe déjà.")
+            user[0].update(**json)
+            await user[0].solved_challenges.clear()
+            await user.solved_challenges.add(*solved_challenges)
             return user[0]
 
-        print(f"L'utilisateur {json['username']} n'existe pas.")
-        solved_challenges = [
-            await Challenge.from_json(challenge)
-            for challenge in json['solved_challenges']
-        ]
+        logging.info(f"L'utilisateur {json['username']} n'existe pas.")
 
-        json['joined'] = strptime(json['joined'])
-
-        del json['solved_challenges']
         user = await cls.create(**json)
         await user.solved_challenges.add(*solved_challenges)
         return user
