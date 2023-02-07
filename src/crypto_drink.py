@@ -28,7 +28,7 @@ initial_extensions = [
 @bot.event
 async def on_ready():
     log.info(f"Connecté en tant que {bot.user}")
-    # await bot.tree.sync(guild = guild)
+    await bot.tree.sync(guild = guild)
 
 async def load():
     for extension in initial_extensions:
