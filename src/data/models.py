@@ -76,6 +76,8 @@ class User(Model):
     username          = fields.CharField(max_length = 255, pk = True)
     website           = fields.CharField(max_length = 255)
 
+    server_rank       = fields.IntField(default = 2147483647)
+
     @classmethod
     async def get_existing(cls, username):
         users = await cls.filter(username = username)
@@ -178,7 +180,7 @@ class Scoreboard(Model):
     async def add_user_if_not_present(self, user: User):
         users = await self.users.filter(username = user.username)
         if len(users) == 0:
-            self.add_user(user)
+            await self.add_user(user)
             return True
         return False
 
