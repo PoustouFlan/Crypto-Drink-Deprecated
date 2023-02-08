@@ -174,3 +174,12 @@ class Scoreboard(Model):
 
     async def add_user(self, user: User):
         await self.users.add(user)
+
+    async def add_user_if_not_present(self, user: User):
+        users = await self.users.filter(username = user.username)
+        if len(users) == 0:
+            self.add_user(user)
+            return True
+        return False
+
+
