@@ -6,5 +6,6 @@ configuration = safe_load(configuration_file.read())
 
 TOKEN = configuration['token']
 GUILD_ID = configuration['guild_id']
+CHANNEL_ID = configuration['channel_id']
 
-guild = discord.Object(id = GUILD_ID)
+guild_object = discord.Object(id = GUILD_ID)

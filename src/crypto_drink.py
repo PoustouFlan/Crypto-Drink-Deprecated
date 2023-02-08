@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from bot_utils import TOKEN
+from bot_utils import *
 from discord.ext import commands
 
 import logging
@@ -22,13 +22,14 @@ bot = commands.Bot(
 
 initial_extensions = [
     "cogs.user-info",
+    "cogs.announce",
 ]
-
 
 @bot.event
 async def on_ready():
+    global guild, channel, announce
     log.info(f"Connecté en tant que {bot.user}")
-    await bot.tree.sync(guild = guild)
+
 
 async def load():
     for extension in initial_extensions:

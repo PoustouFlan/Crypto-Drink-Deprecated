@@ -39,6 +39,7 @@ let
       discordpy
       pyyaml
       requests
+      babel
       (
         buildPythonPackage rec {
           pname = "tortoise-orm";

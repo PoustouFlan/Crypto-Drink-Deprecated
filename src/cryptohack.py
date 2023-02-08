@@ -13,3 +13,18 @@ def get_user(user):
         f"Erreur {json['code']}: {json['message']}"
     )
     return json
+
+CATEGORY_LINK = {
+    "Introduction" : "https://cryptohack.org/challenges/introduction/",
+    "General" : "https://cryptohack.org/challenges/general/",
+    "Mathematics" : "https://cryptohack.org/challenges/maths/",
+    "Symmetric Cipihers" : "https://cryptohack.org/challenges/aes/",
+    "RSA" : "https://cryptohack.org/challenges/rsa/",
+    "Diffie-Hellman" : "https://cryptohack.org/challenges/diffie-hellman/",
+    "Elliptic Curves" : "https://cryptohack.org/challenges/ecc/",
+    "Hash Functions" : "https://cryptohack.org/challenges/hashes/",
+    "Crypto On The Web" : "https://cryptohack.org/challenges/web/",
+    "Misc" : "https://cryptohack.org/challenges/misc/",
+    "Post-Quantum" : "https://cryptohack.org/challenges/post-quantum/",
+    "CTF Archive" : "https://cryptohack.org/challenges/ctf-archive/",
+}
