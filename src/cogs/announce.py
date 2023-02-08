@@ -3,7 +3,8 @@ from discord.ext import commands
 from discord import app_commands
 from bot_utils import *
 
-from cryptohack import CATEGORY_LINK
+from cryptohack import get_user, CATEGORY_LINK
+from data.models import *
 
 import logging
 log = logging.getLogger("CryptoDrink")
@@ -12,8 +13,43 @@ class Announce(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def announce(self, user, challenge):
+    @app_commands.command(
+        name = "update",
+        description = "Annonce les flags récents des membres du tableau"
+    )
+    async def manual_update(self, interaction):
+        try:
+            await interaction.response.defer()
+            counter = await self.auto_update()
+            s = "" if counter < 2 else "s"
+            ont = "a" if counter < 2 else "ont"
+            await interaction.followup.send(
+                f"{counter} flag{s} récent{s} {ont} été annoncé{s}."
+            )
+        except Exception as e:
+            log.error(e)
 
+    async def auto_update(self):
+        log.info("Updating scores")
+        scoreboards = await Scoreboard.all()
+        scoreboard = scoreboards[0]
+        users = await scoreboard.users.all()
+
+        counter = 0
+        for user in users:
+            log.info(f"  - Updating {user.username}")
+            json = get_user(user.username)
+            flags = await user.new_flags(json)
+
+            if len(flags) > 0:
+                for challenge in flags:
+                    counter += 1
+                    await self.announce(user, challenge)
+        log.info("Done")
+        return counter
+
+
+    async def announce(self, user, challenge):
         guild = self.bot.get_guild(GUILD_ID)
         channel = await guild.fetch_channel(CHANNEL_ID)
 
@@ -40,6 +76,9 @@ class Announce(commands.Cog):
                 f"Rang : #{user.rank} / {user.user_count}\n"
             )
         )
+
+        # TODO : Add number of people that have flagged
+        # this challenge in the scoreboard
 
         if challenge.category in CATEGORY_LINK:
             category_link = CATEGORY_LINK[challenge.category]

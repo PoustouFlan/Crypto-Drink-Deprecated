@@ -24,14 +24,13 @@ initial_extensions = [
     "cogs.user-info",
     "cogs.announce",
     "cogs.register",
+    "cogs.unregister",
     "cogs.scoreboard",
 ]
 
 @bot.event
 async def on_ready():
-    global guild, channel, announce
     log.info(f"Connecté en tant que {bot.user}")
-
 
 
 async def load():

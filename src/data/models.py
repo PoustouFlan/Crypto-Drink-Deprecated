@@ -184,4 +184,11 @@ class Scoreboard(Model):
             return True
         return False
 
+    async def remove_user_if_present(self, user: User):
+        users = await self.users.filter(username = user.username)
+        if len(users) == 0:
+            return False
+        await self.users.remove(*users)
+        return True
+
 

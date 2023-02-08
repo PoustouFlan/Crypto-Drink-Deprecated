@@ -35,13 +35,10 @@ class UserInfo(commands.Cog):
             return
 
         user = await User.get_existing_or_create(json)
-        flags = await user.new_flags(json)
 
-        if len(flags) > 0:
-            announce = self.bot.get_cog("Announce")
-            for challenge in flags:
-                await announce.announce(user, challenge)
-
+        # TODO : check flags
+        # If user in scoreboard :
+        #    announce the flag
 
         embed = discord.Embed(
             title = f"Profil de {user.username}",

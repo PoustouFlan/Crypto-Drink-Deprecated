@@ -18,7 +18,7 @@ CATEGORY_LINK = {
     "Introduction" : "https://cryptohack.org/challenges/introduction/",
     "General" : "https://cryptohack.org/challenges/general/",
     "Mathematics" : "https://cryptohack.org/challenges/maths/",
-    "Symmetric Cipihers" : "https://cryptohack.org/challenges/aes/",
+    "Symmetric Ciphers" : "https://cryptohack.org/challenges/aes/",
     "RSA" : "https://cryptohack.org/challenges/rsa/",
     "Diffie-Hellman" : "https://cryptohack.org/challenges/diffie-hellman/",
     "Elliptic Curves" : "https://cryptohack.org/challenges/ecc/",
