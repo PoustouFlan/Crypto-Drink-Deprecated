@@ -79,8 +79,18 @@ class Announce(commands.Cog):
             )
         )
 
-        # TODO : Add number of people that have flagged
-        # this challenge in the scoreboard
+        scoreboards = await Scoreboard.all()
+        scoreboard = scoreboards[0]
+        users = await scoreboard.users.all()
+        flags = 0
+        for user in users:
+            challenges = await user.solved_challenges.filter(
+                name = challenge.name,
+                category = challenge.category
+            )
+            if len(challenges) > 0:
+                flags += 1
+        flags = "1er" if flags == 1 else f"{flags}e"
 
         if challenge.category in CATEGORY_LINK:
             category_link = CATEGORY_LINK[challenge.category]
@@ -96,6 +106,7 @@ class Announce(commands.Cog):
                 f"**{category}\n**{challenge.name}\n"
                 f":star: {challenge.points} ⠀ "
                 f":triangular_flag_on_post: {challenge.solves}\n"
+                f"{flags} :triangular_flag_on_post: du scoreboard\n"
             )
         )
 
