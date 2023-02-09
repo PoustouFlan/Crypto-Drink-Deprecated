@@ -26,6 +26,7 @@ initial_extensions = [
     "cogs.register",
     "cogs.unregister",
     "cogs.scoreboard",
+    "cogs.challenge",
 ]
 
 @bot.event
