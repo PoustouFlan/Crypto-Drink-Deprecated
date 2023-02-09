@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import app_commands
 from bot_utils import *
 
@@ -12,6 +12,7 @@ log = logging.getLogger("CryptoDrink")
 class Announce(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.auto_update.start()
 
     @app_commands.command(
         name = "update",
@@ -29,6 +30,7 @@ class Announce(commands.Cog):
         except Exception as e:
             log.error(e)
 
+    @tasks.loop(minutes = 5)
     async def auto_update(self):
         log.info("Updating scores")
         scoreboards = await Scoreboard.all()
