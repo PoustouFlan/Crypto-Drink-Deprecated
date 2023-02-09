@@ -10,11 +10,9 @@ import logging
 log = logging.getLogger("CryptoDrink")
 
 class Select(discord.ui.Select):
-    def __init__(self, challenges, interaction, category):
-        self.interaction = interaction
+    def __init__(self, challenges, category):
         self.category = category
         self.challenges = challenges
-        self.answer = None
         options = [
             discord.SelectOption(label=challenge.name) for challenge in challenges
         ]
@@ -27,7 +25,6 @@ class Select(discord.ui.Select):
         )
 
     async def callback(self, interaction):
-        response = await self.interaction.original_response()
         name = self.values[0]
         for challenge in self.challenges:
             if challenge.name == name:
@@ -35,11 +32,51 @@ class Select(discord.ui.Select):
 
         await Flaggers.display_challenge(interaction, challenge)
 
+class CategorySelect(discord.ui.Select):
+    def __init__(self, categories):
+        self.categories = categories
+        options = [
+            discord.SelectOption(label = category) for category in categories
+        ]
+        placeholder = "Sélectionnez la catégorie désirée"
+        super().__init__(
+            placeholder = placeholder,
+            max_values = 1,
+            min_values = 1,
+            options = options
+        )
+
+    async def callback(self, interaction):
+        category = self.values[0]
+
+        challenges = await Challenge.filter(
+            category = category
+        )
+
+        if len(challenges) == 0:
+            await interaction.response.send_message(
+                "Cette catégorie n'est pas présente dans la base de données."
+            )
+            return
+
+        view = SelectView(challenges, category)
+
+        await interaction.response.send_message(
+            "Sélectionnez le challenge désiré.",
+            view = view,
+            ephemeral = True
+        )
+
 
 class SelectView(discord.ui.View):
-    def __init__(self, challenges, interaction, category):
+    def __init__(self, challenges, category):
         super().__init__()
-        self.add_item(Select(challenges, interaction, category))
+        self.add_item(Select(challenges, category))
+
+class CategorySelectView(discord.ui.View):
+    def __init__(self, categories):
+        super().__init__()
+        self.add_item(CategorySelect(categories))
 
 class Flaggers(commands.Cog):
     def __init__(self, bot):
@@ -49,9 +86,17 @@ class Flaggers(commands.Cog):
         name = "challenge",
         description = "Affiche les flaggers d'un challenge dans le serveur"
     )
-    async def challenge(self, interaction, category: str, name: str = ""):
+    async def challenge(self, interaction, category: str = "", name: str = ""):
+        if category == "":
+            categories = list(CATEGORY_LINK.keys())
+            view = CategorySelectView(categories)
+            await interaction.response.send_message(
+                "Sélectionnez la catégorie désirée.",
+                view = view,
+                ephemeral = True
+            )
 
-        if name == "":
+        elif name == "":
             challenges = await Challenge.filter(
                 category = category
             )
@@ -61,7 +106,7 @@ class Flaggers(commands.Cog):
                 )
                 return
 
-            view = SelectView(challenges, interaction, category)
+            view = SelectView(challenges, category)
 
             await interaction.response.send_message(
                 "Sélectionnez le challenge désiré.",
