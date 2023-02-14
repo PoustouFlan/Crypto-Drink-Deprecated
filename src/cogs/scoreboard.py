@@ -33,40 +33,41 @@ class Leaderboard(commands.Cog):
             colour = discord.Colour.blue()
         )
 
-        leaderboard = ""
-        for i, user in enumerate(users):
-            if user.country == '':
-                pays = ":globe_with_meridians:"
-            else:
-                pays = f":flag_{user.country}:"
+        for page in range((len(users) // 5) + 1):
+            leaderboard = ""
+            for i, user in enumerate(users[5*page:5*page + 5]):
+                if user.country == '':
+                    pays = ":globe_with_meridians:"
+                else:
+                    pays = f":flag_{user.country}:"
 
-            old_place = user.server_rank
-            new_place = i + 1
-            user.server_rank = new_place
-            challenges = await user.solved_challenges.all()
-            await user.save()
-            if new_place < old_place:
-                emote = ":arrow_up_small:"
-            elif new_place == old_place:
-                emote = ":black_large_square:"
-            else:
-                emote = ":arrow_down_small:"
+                old_place = user.server_rank
+                new_place = i + 1
+                user.server_rank = new_place
+                challenges = await user.solved_challenges.all()
+                await user.save()
+                if new_place < old_place:
+                    emote = ":arrow_up_small:"
+                elif new_place == old_place:
+                    emote = ":black_large_square:"
+                else:
+                    emote = ":arrow_down_small:"
 
-            score = str(user.score).ljust(5)
-            flags = str(len(challenges)).ljust(3)
+                score = str(user.score).ljust(5)
+                flags = str(len(challenges)).ljust(3)
 
-            leaderboard += (
-                f"{emote}`{new_place}` | "
-                f":star: `{score}` ⠀ "
-                f":triangular_flag_on_post: `{flags}` | "
-                f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n"
+                leaderboard += (
+                    f"{emote}`{new_place}` | "
+                    f":star: `{score}` ⠀ "
+                    f":triangular_flag_on_post: `{flags}` | "
+                    f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n"
+                )
+
+            embed.add_field(
+                inline = False,
+                name = "Tableau des scores",
+                value = leaderboard
             )
-
-        embed.add_field(
-            inline = False,
-            name = "Tableau des scores",
-            value = leaderboard
-        )
 
         await interaction.followup.send(
             "",
