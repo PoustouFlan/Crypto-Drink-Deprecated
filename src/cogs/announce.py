@@ -19,16 +19,13 @@ class Announce(commands.Cog):
         description = "Annonce les flags récents des membres du tableau"
     )
     async def manual_update(self, interaction):
-        try:
-            await interaction.response.defer()
-            counter = await self.auto_update()
-            s = "" if counter < 2 else "s"
-            ont = "a" if counter < 2 else "ont"
-            await interaction.followup.send(
-                f"{counter} flag{s} récent{s} {ont} été annoncé{s}."
-            )
-        except Exception as e:
-            log.error(e)
+        await interaction.response.defer()
+        counter = await self.auto_update()
+        s = "" if counter < 2 else "s"
+        ont = "a" if counter < 2 else "ont"
+        await interaction.followup.send(
+            f"{counter} flag{s} récent{s} {ont} été annoncé{s}."
+        )
 
     @tasks.loop(minutes = 5)
     async def auto_update(self):
