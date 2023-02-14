@@ -42,7 +42,7 @@ class Leaderboard(commands.Cog):
                     pays = f":flag_{user.country}:"
 
                 old_place = user.server_rank
-                new_place = i + 1
+                new_place = i + 1 + 5 * page
                 user.server_rank = new_place
                 challenges = await user.solved_challenges.all()
                 await user.save()
@@ -63,9 +63,14 @@ class Leaderboard(commands.Cog):
                     f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n"
                 )
 
+            if page == 0:
+                name = "Tableau des scores"
+            else:
+                name = ""
+
             embed.add_field(
                 inline = False,
-                name = "Tableau des scores",
+                name = name,
                 value = leaderboard
             )
 
