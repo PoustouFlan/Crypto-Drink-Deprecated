@@ -33,6 +33,8 @@ class Leaderboard(commands.Cog):
             colour = discord.Colour.blue()
         )
 
+        digits = len(str(len(users)))
+
         for page in range((len(users) // 5) + 1):
             leaderboard = ""
             for i, user in enumerate(users[5*page:5*page + 5]):
@@ -57,7 +59,7 @@ class Leaderboard(commands.Cog):
                 flags = str(len(challenges)).ljust(3)
 
                 leaderboard += (
-                    f"{emote}`{new_place}` | "
+                    f"{emote} `{str(new_place).rjust(digits)}` | "
                     f":star: `{score}` ⠀ "
                     f":triangular_flag_on_post: `{flags}` | "
                     f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n"
