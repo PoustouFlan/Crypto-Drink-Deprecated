@@ -9,11 +9,6 @@ from data.models import *
 import logging
 log = logging.getLogger("CryptoDrink")
 
-def crop(label, length):
-    if len(label) <= length:
-        return label
-    else:
-        return label[:length-1] + '…'
 
 class Select(discord.ui.Select):
     def __init__(self, challenges, category):
@@ -21,9 +16,9 @@ class Select(discord.ui.Select):
         self.challenges = challenges
         options = [
             discord.SelectOption(
-                label = crop(challenge.name, 25)
+                label = challenge.name
             )
-            for challenge in challenges
+            for challenge in challenges[:25]
         ]
         placeholder = "Sélectionnez le challenge désiré"
         super().__init__(
