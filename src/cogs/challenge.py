@@ -3,84 +3,12 @@ from discord.ext import commands, tasks
 from discord import app_commands
 from bot_utils import *
 
-from cryptohack import get_user, CATEGORY_LINK
+from cryptohack import get_user, CATEGORY_LINK, ALL_CHALLENGES
 from data.models import *
 
 import logging
 log = logging.getLogger("CryptoDrink")
 
-
-class Select(discord.ui.Select):
-    def __init__(self, challenges, category):
-        self.category = category
-        self.challenges = challenges
-        options = [
-            discord.SelectOption(
-                label = challenge.name
-            )
-            for challenge in challenges[:25]
-        ]
-        placeholder = "Sélectionnez le challenge désiré"
-        super().__init__(
-            placeholder = placeholder,
-            max_values = 1,
-            min_values = 1,
-            options = options
-        )
-
-    async def callback(self, interaction):
-        name = self.values[0]
-        for challenge in self.challenges:
-            if challenge.name == name:
-                break
-
-        await Flaggers.display_challenge(interaction, challenge)
-
-class CategorySelect(discord.ui.Select):
-    def __init__(self, categories):
-        self.categories = categories
-        options = [
-            discord.SelectOption(label = category) for category in categories
-        ]
-        placeholder = "Sélectionnez la catégorie désirée"
-        super().__init__(
-            placeholder = placeholder,
-            max_values = 1,
-            min_values = 1,
-            options = options
-        )
-
-    async def callback(self, interaction):
-        category = self.values[0]
-
-        challenges = await Challenge.filter(
-            category = category
-        )
-
-        if len(challenges) == 0:
-            await interaction.response.send_message(
-                "Cette catégorie n'est pas présente dans la base de données."
-            )
-            return
-
-        view = SelectView(challenges, category)
-
-        await interaction.response.send_message(
-            "Sélectionnez le challenge désiré.",
-            view = view,
-            ephemeral = True
-        )
-
-
-class SelectView(discord.ui.View):
-    def __init__(self, challenges, category):
-        super().__init__()
-        self.add_item(Select(challenges, category))
-
-class CategorySelectView(discord.ui.View):
-    def __init__(self, categories):
-        super().__init__()
-        self.add_item(CategorySelect(categories))
 
 class Flaggers(commands.Cog):
     def __init__(self, bot):
@@ -90,47 +18,22 @@ class Flaggers(commands.Cog):
         name = "challenge",
         description = "Affiche les flaggers d'un challenge dans le serveur"
     )
-    async def challenge(self, interaction, category: str = "", name: str = ""):
-        if category == "":
-            categories = list(CATEGORY_LINK.keys())
-            view = CategorySelectView(categories)
+    @app_commands.choices(name=[
+        discord.app_commands.Choice(name = chal, value = chal)
+        for chal in ALL_CHALLENGES
+    ])
+    async def challenge(self, interaction, name: str = ""):
+        challenges = await Challenge.filter(
+            name = name,
+        )
+        if len(challenges) == 0:
             await interaction.response.send_message(
-                "Sélectionnez la catégorie désirée.",
-                view = view,
-                ephemeral = True
+                "Ce challenge n'est pas présent dans la base de données."
             )
+            return
+        challenge = challenges[0]
 
-        elif name == "":
-            challenges = await Challenge.filter(
-                category = category
-            )
-            if len(challenges) == 0:
-                await interaction.response.send_message(
-                    "Cette catégorie n'est pas présente dans la base de données."
-                )
-                return
-
-            view = SelectView(challenges, category)
-
-            await interaction.response.send_message(
-                "Sélectionnez le challenge désiré.",
-                view = view,
-                ephemeral = True
-            )
-
-        else:
-            challenges = await Challenge.filter(
-                name = name,
-                category = category
-            )
-            if len(challenges) == 0:
-                await interaction.response.send_message(
-                    "Ce challenge n'est pas présent dans la base de données."
-                )
-                return
-            challenge = challenges[0]
-
-            await Flaggers.display_challenge(interaction, challenge)
+        await Flaggers.display_challenge(interaction, challenge)
 
     @staticmethod
     async def display_challenge(interaction, challenge):
