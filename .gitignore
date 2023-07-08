@@ -1,2 +1,3 @@
 __pycache__
 src/data/db.sqlite3*
+src/tmp/*
