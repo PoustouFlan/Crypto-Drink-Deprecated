@@ -29,7 +29,7 @@ class Flaggers(commands.Cog):
         description = "Affiche les flaggers d'un challenge dans le serveur"
     )
     @app_commands.autocomplete(name=challenge_autocomplete)
-    async def challenge(self, interaction, name: str = ""):
+    async def challenge(self, interaction, name: str):
         challenges = await Challenge.filter(
             name = name,
         )
