@@ -9,6 +9,16 @@ from data.models import *
 import logging
 log = logging.getLogger("CryptoDrink")
 
+async def challenge_autocomplete(interaction, current):
+    choices = []
+    for name in ALL_CHALLENGES:
+        if current.lower() in name.lower():
+            choices.append(
+                app_commands.Choice(name=name, value=name)
+            )
+            if len(choices) >= 25:
+                break
+    return choices
 
 class Flaggers(commands.Cog):
     def __init__(self, bot):
@@ -18,10 +28,7 @@ class Flaggers(commands.Cog):
         name = "challenge",
         description = "Affiche les flaggers d'un challenge dans le serveur"
     )
-    @app_commands.choices(name=[
-        discord.app_commands.Choice(name = chal, value = chal)
-        for chal in ALL_CHALLENGES
-    ])
+    @app_commands.autocomplete(name=challenge_autocomplete)
     async def challenge(self, interaction, name: str = ""):
         challenges = await Challenge.filter(
             name = name,

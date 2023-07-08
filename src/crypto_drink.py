@@ -32,10 +32,13 @@ initial_extensions = [
 @bot.event
 async def on_ready():
     log.info(f"Connecté en tant que {bot.user}")
-    fmt = await bot.tree.sync(guild = guild_object)
-    s = "" if len(fmt) < 2 else "s"
-    log.info("Sync complete")
-    log.info(f"{len(fmt)} commande{s} synchronisée{s}.")
+    try:
+        fmt = await bot.tree.sync(guild = guild_object)
+        s = "" if len(fmt) < 2 else "s"
+        log.info("Sync complete")
+        log.info(f"{len(fmt)} commande{s} synchronisée{s}.")
+    except Exception as e:
+        log.exception(str(e))
 
 async def load():
     for extension in initial_extensions:
