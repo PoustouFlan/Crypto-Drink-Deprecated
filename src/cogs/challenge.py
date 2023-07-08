@@ -11,10 +11,10 @@ log = logging.getLogger("CryptoDrink")
 
 async def challenge_autocomplete(interaction, current):
     choices = []
-    for name in ALL_CHALLENGES:
+    for name, value in ALL_CHALLENGES.items():
         if current.lower() in name.lower():
             choices.append(
-                app_commands.Choice(name=name, value=name)
+                app_commands.Choice(name=name, value=value)
             )
             if len(choices) >= 25:
                 break
