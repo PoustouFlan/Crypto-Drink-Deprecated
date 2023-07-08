@@ -40,6 +40,7 @@ let
       pyyaml
       requests
       babel
+      matplotlib
       (
         buildPythonPackage rec {
           pname = "tortoise-orm";
