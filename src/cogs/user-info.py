@@ -14,30 +14,27 @@ import matplotlib.pyplot as plt
 
 
 def create_plot(challenges, filename):
-    try:
-        dates = [chal.date for chal in challenges[::-1]]
-        score = 0
-        scores = []
-        for chal in challenges[::-1]:
-            score += chal.points
-            scores.append(score)
+    dates = [chal.date for chal in challenges[::-1]]
+    score = 0
+    scores = []
+    for chal in challenges[::-1]:
+        score += chal.points
+        scores.append(score)
 
-        plt.plot(dates, scores, color='gold')
-        plt.xticks(color='white')
-        plt.yticks(color='white')
-        plt.gca().spines['bottom'].set_color('white')
-        plt.gca().spines['left'].set_color('white')
-        plt.gca().spines['top'].set_visible(False)
-        plt.gca().spines['right'].set_visible(False)
-        plt.xticks(rotation=45)
-        plt.tick_params(axis='x',colors='white')
-        plt.tick_params(axis='y',colors='white')
-        plt.tight_layout()
+    plt.plot(dates, scores, color='gold')
+    plt.xticks(color='white')
+    plt.yticks(color='white')
+    plt.gca().spines['bottom'].set_color('white')
+    plt.gca().spines['left'].set_color('white')
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.xticks(rotation=45)
+    plt.tick_params(axis='x',colors='white')
+    plt.tick_params(axis='y',colors='white')
+    plt.tight_layout()
 
-        plt.savefig(filename, dpi=300, transparent=True)
-        plt.close()
-    except Exception as e:
-        log.exception(str(e))
+    plt.savefig(filename, dpi=300, transparent=True)
+    plt.close()
 
 class UserInfo(commands.Cog):
     def __init__(self, bot):

@@ -20,8 +20,15 @@ class Challenge(Model):
     solves   = fields.SmallIntField()
 
     @classmethod
-    async def get_existing(cls, category, name):
-        challenges = await cls.filter(name = name, category = category)
+    async def get_existing(cls, category, name, date = None):
+        if date is None:
+            challenges = await cls.filter(name = name, category = category)
+        else:
+            challenges = await cls.filter(
+                            name = name,
+                            category = category,
+                            date = date
+                        )
         if len(challenges) == 0:
             return None
         else:
@@ -31,7 +38,12 @@ class Challenge(Model):
     async def get_existing_or_create(cls, json):
         category = json['category']
         name = json['name']
-        challenge = await Challenge.get_existing(category, name)
+        if 'date' in json:
+            date = strptime(json['date'])
+            challenge = await Challenge.get_existing(category, name, date)
+        else:
+            challenge = await Challenge.get_existing(category, name)
+
         if challenge is None:
             log.info(f"Ajout du challenge : {category}/{name}")
             json_copy = json.copy() # Pour éviter d'altérer le paramètre
@@ -47,8 +59,9 @@ class Challenge(Model):
         name = json['name']
         json_copy = json.copy() # Pour éviter d'altérer le paramètre
         json_copy['date'] = strptime(json['date'])
+        date = json_copy['date']
 
-        challenge = await Challenge.get_existing(category, name)
+        challenge = await Challenge.get_existing(category, name, date)
         if challenge is None:
             log.info(f"Ajout du challenge : {category}/{name}")
             return await cls.create(**json_copy)
