@@ -14,11 +14,14 @@ import matplotlib.pyplot as plt
 
 
 def create_plot(challenges, filename):
-    dates = [chal.date for chal in challenges[::-1]]
+    dates = []
     score = 0
     scores = []
     for chal in challenges[::-1]:
+        dates.append(chal.date)
+        scores.append(score)
         score += chal.points
+        dates.append(chal.date)
         scores.append(score)
 
     plt.plot(dates, scores, color='gold')

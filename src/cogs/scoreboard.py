@@ -13,40 +13,39 @@ import matplotlib.pyplot as plt
 from datetime import date, timedelta
 
 def create_plot(users, filename):
-    try:
-        plot_start = date.today() - timedelta(days = 200)
-        for challenges, username in users:
-            challenges.sort(key = lambda chal: chal[0])
-            dates = []
-            score = 0
-            scores = []
-            for chal_date, chal_points in challenges:
-                score += chal_points
-                if chal_date >= plot_start:
-                    dates.append(chal_date)
-                    scores.append(score)
-            dates.append(date.today())
-            scores.append(score)
-            dates.insert(0, plot_start)
-            scores.insert(0, scores[0])
-            plt.plot(dates, scores, label=username)
+    plot_start = date.today() - timedelta(days = 200)
+    for challenges, username in users:
+        challenges.sort(key = lambda chal: chal[0])
+        dates = []
+        score = 0
+        scores = []
+        for chal_date, chal_points in challenges:
+            score += chal_points
+            if chal_date >= plot_start:
+                dates.append(chal_date)
+                dates.append(chal_date)
+                scores.append(score - chal_points)
+                scores.append(score)
+        dates.append(date.today())
+        scores.append(score)
+        dates.insert(0, plot_start)
+        scores.insert(0, scores[0])
+        plt.plot(dates, scores, label=username)
 
-        plt.xticks(color='white')
-        plt.yticks(color='white')
-        plt.gca().spines['bottom'].set_color('white')
-        plt.gca().spines['left'].set_color('white')
-        plt.gca().spines['top'].set_visible(False)
-        plt.gca().spines['right'].set_visible(False)
-        plt.xticks(rotation=45)
-        plt.tick_params(axis='x',colors='white')
-        plt.tick_params(axis='y',colors='white')
-        plt.legend(loc=(1.05, 0.25))
-        plt.tight_layout()
+    plt.xticks(color='white')
+    plt.yticks(color='white')
+    plt.gca().spines['bottom'].set_color('white')
+    plt.gca().spines['left'].set_color('white')
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.xticks(rotation=45)
+    plt.tick_params(axis='x',colors='white')
+    plt.tick_params(axis='y',colors='white')
+    plt.legend(loc=(1.05, 0.25))
+    plt.tight_layout()
 
-        plt.savefig(filename, dpi=300, transparent=True)
-        plt.close()
-    except Exception as e:
-        log.exception(str(e))
+    plt.savefig(filename, dpi=300, transparent=True)
+    plt.close()
 
 class Leaderboard(commands.Cog):
     def __init__(self, bot):
