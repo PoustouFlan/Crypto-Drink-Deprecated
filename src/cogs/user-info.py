@@ -24,6 +24,7 @@ def create_plot(challenges, filename):
         dates.append(chal.date)
         scores.append(score)
 
+    plt.grid(which='major', axis='y', color='gray', linestyle='dashed', linewidth=0.5, alpha=0.5)
     plt.plot(dates, scores, color='gold')
     plt.xticks(color='white')
     plt.yticks(color='white')

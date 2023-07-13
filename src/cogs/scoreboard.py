@@ -32,6 +32,7 @@ def create_plot(users, filename):
         scores.insert(0, scores[0])
         plt.plot(dates, scores, label=username)
 
+    plt.grid(which='major', axis='y', color='gray', linestyle='dashed', linewidth=0.5, alpha=0.5)
     plt.xticks(color='white')
     plt.yticks(color='white')
     plt.gca().spines['bottom'].set_color('white')
