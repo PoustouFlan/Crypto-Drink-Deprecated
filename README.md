@@ -31,8 +31,5 @@ Enfin, pour lancer le bot, vous pouvez exécuter :
 nix-shell --run make
 ```
 
-Il sera potentiellement nécessaire d'envoyer une fois la commande
-`$ sync` dans votre serveur pour activer les commandes slashs.
-
 Le bot aura besoin des permissions pour voir les messages, envoyer les
 messages et inclure des embeds. Aussi, il faut avoir actif le *Message Intent.*
