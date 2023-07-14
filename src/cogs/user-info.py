@@ -6,11 +6,12 @@ from bot_utils import guild_object
 import logging
 log = logging.getLogger("CryptoDrink")
 
-from cryptohack import get_user, CATEGORY_LINK
+from cryptohack import get_user, CATEGORY_LINK, ALL_CHALLENGES
 from data.models import *
 
 from babel.dates import format_date
 import matplotlib.pyplot as plt
+from collections import defaultdict
 
 
 def create_plot(challenges, filename):
@@ -63,6 +64,8 @@ class UserInfo(commands.Cog):
             await interaction.response.send_message(str(e))
             return
 
+        await interaction.response.defer()
+
         user = await User.get_existing_or_create(json)
         flags = await user.new_flags(json)
 
@@ -102,6 +105,7 @@ class UserInfo(commands.Cog):
 
         value = ""
         challenges = await user.solved_challenges.all()
+
         for chal in challenges[:5]:
             if chal.category in CATEGORY_LINK:
                 category_link = CATEGORY_LINK[chal.category]
@@ -135,7 +139,25 @@ class UserInfo(commands.Cog):
             value = value
         )
 
-        await interaction.response.send_message(
+        categories = defaultdict(lambda: 0)
+        for chal in challenges:
+            categories[chal.category] += 1
+        value = ""
+        for category in ALL_CHALLENGES:
+            solved = categories[category]
+            total = len(ALL_CHALLENGES[category])
+            bars = 10 * solved // total
+            bar = "▰"*bars + "▱"*(10 - bars)
+            star = ":star2:" if solved == total else ":black_large_square:"
+            value += f"{star} {bar} {category}: {solved} / {total}\n"
+
+        embed.add_field(
+            inline = False,
+            name = "Catégories",
+            value = value
+        )
+
+        await interaction.followup.send(
             "",
             file = file,
             embed = embed,
