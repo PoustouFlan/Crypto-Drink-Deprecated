@@ -7,6 +7,7 @@ scores local pour [https://cryptohack.org/](CryptoHack).
    challenge
  - Affichage des statistiques d'un utilisateur CryptoHack
  - Tableau des scores
+ - Liste des membres ayant résolu un challenge
 
 ## Installation
 
