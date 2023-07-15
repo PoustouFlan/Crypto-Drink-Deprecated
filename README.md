@@ -1,6 +1,6 @@
 ## CryptoDrink
 
-**CryptoDrink** is a Discrod bot which implements a local
+**CryptoDrink** is a Discord bot which implements a local
 scoreboard for [https://cryptohack.org/](CryptoHack).
 
  - Announces when a server member solves a challenge
