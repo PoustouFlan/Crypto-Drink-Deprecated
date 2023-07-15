@@ -1,0 +1,6 @@
+discord.py
+pyyaml
+requests
+babel
+matplotlib
+tortoise-orm
