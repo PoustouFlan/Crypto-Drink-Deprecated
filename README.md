@@ -1,36 +1,56 @@
 ## CryptoDrink
 
-**CryptoDrink** est un bot Discord implémentant un tableau des
-scores local pour [https://cryptohack.org/](CryptoHack).
+**CryptoDrink** is a Discrod bot which implements a local
+scoreboard for [https://cryptohack.org/](CryptoHack).
 
- - Annonce lorsqu'un membre du tableau des scores résout un
-   challenge
- - Affichage des statistiques d'un utilisateur CryptoHack
- - Tableau des scores
- - Liste des membres ayant résolu un challenge
+ - Announces when a server member solves a challenge
+ - Displays statistics about a CryptoHack user
+ - Local scoreboard for your server
+ - List who solved a challenge in your server
 
 ## Installation
 
-### NixOS
+First, you need to [https://discordpy.readthedocs.io/en/stable/discord.html](
+create your own Discord bot)
+The bot will need permissions to read messages, send messages and include
+embeds.
+It will also need the *Message Intent*.
 
+
+Clone the repository using git
 ```bash
 git clone https://github.com/PoustouFlan/Crypto-Drink.git
 cd Crypto-Drink
 ```
-Ensuite, modifier le fichier `configuration.yaml`, qui doit
-ressembler à :
+
+Then, complete the file `configuration.yaml`:
 ```yaml
-token:      "LeTokenDe.Votre.Bot_Ici"
+token:      "Your.Bot.Token-Here"
 guild_id:   123456789012345678
 channel_id: 1234567890123456789
+locale:     "en"
 ```
-en remplaçant la valeur de `guild_id` par l'identifiant de votre serveur,
-et `channel_id` par l'identifiant du salon des annonces.
+ - `token` should be your Discord Bot token
+ - `guild_id` should be the `id` of your Discord server
+ - `channel_id` should be the id of the channel where the flags are announced
+ - `locale` should be your prefered language.
 
-Enfin, pour lancer le bot, vous pouvez exécuter :
+### NixOS
+
+You can simply run the bot using:
 ```bash
 nix-shell --run make
 ```
 
-Le bot aura besoin des permissions pour voir les messages, envoyer les
-messages et inclure des embeds. Aussi, il faut avoir actif le *Message Intent.*
+### Non NixOS
+
+You need to install the necessary Python packages using pip.
+Assuming you have `python3` and `pip` installed, you can run
+```bash
+pip install -r requirements.txt
+```
+to install the necessary packages, then run
+```bash
+make
+```
+to start the bot.
