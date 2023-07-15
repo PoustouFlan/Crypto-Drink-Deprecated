@@ -1,4 +1,4 @@
-token:      "Your.Bot.Token-Here"
-guild_id:   678901234567890123
-channel_id: 1098765432109876543
-locale:     "en"
+token:      "Your.Bot.Token-Here" # Your Discord bot token
+guild_id:   678901234567890123    # Your server ID
+channel_id: 1098765432109876543   # Flag announcement channel ID
+locale:     "en"                  # Available languages are "en" and "fr"
