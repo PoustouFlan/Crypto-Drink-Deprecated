@@ -62,7 +62,7 @@ let
   python-with-my-packages = pkgs.python310.withPackages packages;
 in
 pkgs.mkShell {
-  buildInputs = [
+  buildInputs = with pkgs; [
     python-with-my-packages
   ];
 }

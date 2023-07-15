@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot_utils import guild_object
+from bot_utils import guild_object, tr
 
 import logging
 log = logging.getLogger("CryptoDrink")
@@ -15,7 +15,7 @@ class Unregister(commands.Cog):
 
     @app_commands.command(
         name = "unregister",
-        description = "Désinscrit un utilisateur du tableau du serveur"
+        description = tr("unregister description")
     )
     async def unregister(self, interaction, user:str):
         try:
@@ -33,11 +33,11 @@ class Unregister(commands.Cog):
 
         if removed:
             await interaction.response.send_message(
-                f"L'utilisateur {user.username} a été supprimé du tableau.",
+                tr("user removed", username=user.username)
             )
         else:
             await interaction.response.send_message(
-                f"L'utilisateur {user.username} n'est pas présent dans le tableau."
+                tr("user absent", username=user.username)
             )
 
 async def setup(bot):

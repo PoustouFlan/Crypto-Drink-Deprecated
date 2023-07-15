@@ -28,7 +28,7 @@ class Flaggers(commands.Cog):
 
     @app_commands.command(
         name = "challenge",
-        description = "Affiche les flaggers d'un challenge dans le serveur"
+        description = tr("challenge description")
     )
     @app_commands.autocomplete(name=challenge_autocomplete)
     async def challenge(self, interaction, name: str):
@@ -37,7 +37,7 @@ class Flaggers(commands.Cog):
         )
         if len(challenges) == 0:
             await interaction.response.send_message(
-                "Ce challenge n'est pas présent dans la base de données."
+                tr("challenge missing")
             )
             return
         challenge = challenges[0]
@@ -59,7 +59,7 @@ class Flaggers(commands.Cog):
             category_link = CATEGORY_LINK[challenge.category]
             category = f"[{challenge.category}]({category_link})"
         else:
-            log.error(f"{challenge.category} absent de la liste des catégories !")
+            log.error(tr("category missing", name=challenge.category))
             category = f"{challenge.category}"
 
         flags = 0
@@ -86,8 +86,8 @@ class Flaggers(commands.Cog):
             value = (
                 f"**{category}\n**{challenge.name}\n"
                 f":star: {challenge.points} ⠀ "
-                f":triangular_flag_on_post: {challenge.solves}\n"
-                f"{flags} :triangular_flag_on_post: dans le scoreboard\n"
+                f":triangular_flag_on_post: {challenge.solves}\n" +
+                tr("server flags", count=flags)
             )
         )
 

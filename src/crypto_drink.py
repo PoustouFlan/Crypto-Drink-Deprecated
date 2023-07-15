@@ -31,12 +31,11 @@ initial_extensions = [
 
 @bot.event
 async def on_ready():
-    log.info(f"Connecté en tant que {bot.user}")
+    log.info(tr("connexion log", username=bot.user))
     try:
-        fmt = await bot.tree.sync(guild = guild_object)
-        s = "" if len(fmt) < 2 else "s"
-        log.info("Sync complete")
-        log.info(f"{len(fmt)} commande{s} synchronisée{s}.")
+        commands = await bot.tree.sync(guild = guild_object)
+        log.info(tr("sync complete"))
+        log.info(tr("command synchronized", count=len(commands)))
     except Exception as e:
         log.exception(str(e))
 
@@ -44,9 +43,9 @@ async def load():
     for extension in initial_extensions:
         try:
             await bot.load_extension(extension)
-            log.info(f"{extension} chargée avec succès")
+            log.info(tr("extension loading successful", name=extension))
         except Exception as e:
-            log.error(f"Échec du chargement de {extension}")
+            log.info(tr("extension loading failed", name=extension))
             log.error(e)
 
 

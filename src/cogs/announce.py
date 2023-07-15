@@ -16,27 +16,25 @@ class Announce(commands.Cog):
 
     @app_commands.command(
         name = "update",
-        description = "Annonce les flags récents des membres du tableau"
+        description = tr("announce description")
     )
     async def manual_update(self, interaction):
         await interaction.response.defer()
-        counter = await self.auto_update()
-        s = "" if counter < 2 else "s"
-        ont = "a" if counter < 2 else "ont"
+        count = await self.auto_update()
         await interaction.followup.send(
-            f"{counter} flag{s} récent{s} {ont} été annoncé{s}."
+            tr("flags announced", count=count)
         )
 
     @tasks.loop(minutes = 5)
     async def auto_update(self):
-        log.info("Updating scores")
+        log.info(tr("auto update log"))
         scoreboards = await Scoreboard.all()
         scoreboard = scoreboards[0]
         users = await scoreboard.users.all()
 
         counter = 0
         for user in users:
-            log.info(f"  - Updating {user.username}")
+            log.info(tr("updating user log", username=user.username))
             json = get_user(user.username)
             flags = await user.new_flags(json)
 
@@ -44,7 +42,7 @@ class Announce(commands.Cog):
                 for challenge in flags:
                     counter += 1
                     await self.announce(user, challenge)
-        log.info("Done")
+        log.info(tr("done"))
         return counter
 
 
@@ -59,7 +57,7 @@ class Announce(commands.Cog):
         challenges = await user.solved_challenges.all()
 
         embed = discord.Embed(
-            title = "Nouveau flag !",
+            title = tr("new flag"),
             colour = discord.Colour.red()
         )
 
@@ -71,8 +69,8 @@ class Announce(commands.Cog):
                 f":star: {user.score} ⠀ "
                 f":triangular_flag_on_post: {len(challenges)}\n" +
                 (":drop_of_blood:" * user.first_bloods) +
-                f"Niveau : {user.level}\n"
-                f"Rang : #{user.rank} / {user.user_count}\n"
+                tr("level", level=user.level) +
+                tr("rank", rank=user.rank, count=user.user_count)
             )
         )
 
@@ -87,13 +85,13 @@ class Announce(commands.Cog):
             )
             if len(challenges) > 0:
                 flags += 1
-        flags = "1er" if flags == 1 else f"{flags}e"
+        flags = tr("ordinal", count=flags)
 
         if challenge.category in CATEGORY_LINK:
             category_link = CATEGORY_LINK[challenge.category]
             category = f"[{challenge.category}]({category_link})"
         else:
-            log.error(f"{challenge.category} absent de la liste des catégories !")
+            log.error(tr("category missing", name=challenge.category))
             category = f"{challenge.category}"
 
         embed.add_field(
@@ -102,8 +100,8 @@ class Announce(commands.Cog):
             value = (
                 f"**{category}\n**{challenge.name}\n"
                 f":star: {challenge.points} ⠀ "
-                f":triangular_flag_on_post: {challenge.solves}\n"
-                f"{flags} :triangular_flag_on_post: du scoreboard\n"
+                f":triangular_flag_on_post: {challenge.solves}\n" +
+                tr("challenge position", ordinal=flags)
             )
         )
 

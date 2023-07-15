@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot_utils import guild_object
+from bot_utils import guild_object, tr
 
 import logging
 log = logging.getLogger("CryptoDrink")
@@ -15,7 +15,7 @@ class Register(commands.Cog):
 
     @app_commands.command(
         name = "register",
-        description = "Inscrit un utilisateur dans le tableau du serveur"
+        description = tr("register description")
     )
     async def register(self, interaction, user:str):
         try:
@@ -33,11 +33,11 @@ class Register(commands.Cog):
 
         if added:
             await interaction.response.send_message(
-                f"L'utilisateur {user.username} a été ajouté au tableau.",
+                tr("user added", username=user.username)
             )
         else:
             await interaction.response.send_message(
-                f"L'utilisateur {user.username} est déjà présent dans le tableau."
+                tr("user already there", username=user.username)
             )
 
 async def setup(bot):

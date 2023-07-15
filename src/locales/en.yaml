@@ -1,0 +1,52 @@
+# crypto_drink.py
+connexion log: "connected as {username}"
+sync complete: "syncronization completed"
+command synchronized: "{count} command{s} synchronized"
+extension loading successful: "extension {name} successfully loaded"
+extension loading failed: "extension {name} failed to load!"
+
+# scoreboard.py
+scoreboard description: "Displays the server scoreboard"
+scoreboard header: "Scoreboard"
+
+# announce.py
+announce description: "Announces recent flags from server members"
+flags announced: "{count} recent flag{s} annonced"
+auto update log: "Updating scores"
+updating user log: "  - Updating {username}…"
+done: "Done!"
+new flag: "New flag!"
+level: "Level: {level}\n"
+rank: "Rank : #{rank} / {count}\n"
+ordinal:
+  1: "1st"
+  2: "2nd"
+  3: "3rd"
+  default: "{count}th"
+category missing: "{name} absent from the category list!"
+challenge position: "{ordinal} :triangular_flag_on_post: of the server\n"
+
+# challenge.py
+challenge description: "Displays who solved the challenge in the server"
+challenge missing: "This challenge is missing from the database."
+server flags: "{count} :triangular_flag_on_post: in the serveur\n"
+
+# register.py
+register description: "Register a user in the scoreboard"
+user added: "User {username} has been added to the scoreboard."
+user already there: "User {username} is already in the scoreboard."
+
+# unregister.py
+unregister description: "Removes a user from the scoreboard"
+user removed: "User {username} has been removed from the scoreboard"
+user absent: "User {username} is not in the scoreboard."
+
+# user-info.py
+userinfo description: "Displays information about a CryptoHack user"
+profile header: "{username} profile"
+website: "[Website]({url})\n"
+cryptohacker since: "CryptoHacker since {date}\n"
+stats: "Statistics"
+last solves: "Last solved challenges"
+categories: "Categories"
+personal information: "Personal informations"

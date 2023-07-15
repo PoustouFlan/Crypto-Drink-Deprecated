@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot_utils import guild_object
+from bot_utils import guild_object, tr
 
 import logging
 log = logging.getLogger("CryptoDrink")
@@ -9,7 +9,6 @@ log = logging.getLogger("CryptoDrink")
 from data.models import *
 
 import matplotlib.pyplot as plt
-
 from datetime import date, timedelta
 
 def create_plot(users, filename):
@@ -54,7 +53,7 @@ class Leaderboard(commands.Cog):
 
     @app_commands.command(
         name = "scoreboard",
-        description = "Affiche le tableau des scores du serveur"
+        description = tr("scoreboard description")
     )
     async def scoreboard(self, interaction):
         await interaction.response.defer()
@@ -71,7 +70,6 @@ class Leaderboard(commands.Cog):
         )
 
         embed = discord.Embed(
-            # title = f"Tableau des scores",
             colour = discord.Colour.blue()
         )
 
@@ -110,7 +108,7 @@ class Leaderboard(commands.Cog):
                 )
 
             if page == 0:
-                name = "Tableau des scores"
+                name = tr("scoreboard header")
             else:
                 name = ""
 

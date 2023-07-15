@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot_utils import guild_object
+from bot_utils import *
 
 import logging
 log = logging.getLogger("CryptoDrink")
@@ -45,17 +45,9 @@ class UserInfo(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def sync(self, ctx):
-        log.info("Syncing...")
-        fmt = await ctx.bot.tree.sync(guild = ctx.guild)
-        s = "" if len(fmt) < 2 else "s"
-        log.info("Sync complete")
-        await ctx.send(f"{len(fmt)} commande{s} synchronisée{s}.")
-
     @app_commands.command(
         name = "user-info",
-        description = "Affiche les informations concernant un utilisateur"
+        description = tr("userinfo description")
     )
     async def user_info(self, interaction, user:str):
         try:
@@ -80,7 +72,7 @@ class UserInfo(commands.Cog):
                     await announce.announce(user, challenge)
 
         embed = discord.Embed(
-            title = f"Profil de {user.username}",
+            title = tr("profile header", username=user.username),
             colour = discord.Colour.orange()
         )
 
@@ -91,14 +83,14 @@ class UserInfo(commands.Cog):
         if user.website == '':
             website = ''
         else:
-            website = f"[Site web]({user.website})\n"
+            website = tr("website", url=user.website)
 
         embed.add_field(
             inline = False,
-            name = "Informations personnelles",
+            name = tr("personal information"),
             value = (
-                f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n"
-                f"CryptoHacker depuis le {format_date(user.joined, locale='fr')}\n"
+                f"{pays} [{user.username}](https://cryptohack.org/user/{user.username})\n" +
+                tr("cryptohacker since", date=user.joined) +
                 f"{website}"
             )
         )
@@ -111,7 +103,7 @@ class UserInfo(commands.Cog):
                 category_link = CATEGORY_LINK[chal.category]
                 challenge = f"[{chal.category}]({category_link})"
             else:
-                log.error(f"{chal.category} absent de la liste des catégories !")
+                log.error(tr("category missing", name=chal.category))
                 challenge = f"{chal.category}"
             value += f":star: {chal.points} | {challenge}/{chal.name}\n"
 
@@ -121,21 +113,21 @@ class UserInfo(commands.Cog):
         embed.set_image(url = f"attachment://{filename[4:]}")
 
         embed.add_field(
-            name = "Statistiques",
+            name = tr("stats"),
             inline = False,
             value = (
                 f":star: {user.score} ⠀ "
                 f":triangular_flag_on_post: {len(challenges)}\n" +
                 (":drop_of_blood:" * user.first_bloods) +
                 ("\n" * (user.first_bloods > 0)) +
-                f"Niveau : {user.level}\n"
-                f"Rang : #{user.rank} / {user.user_count}\n"
+                tr("level", level=user.level) +
+                tr("rank", rank=user.rank, count=user.user_count)
             )
         )
 
         embed.add_field(
             inline = False,
-            name = "Derniers challenges résolus",
+            name = tr("last solves"),
             value = value
         )
 
@@ -153,7 +145,7 @@ class UserInfo(commands.Cog):
 
         embed.add_field(
             inline = False,
-            name = "Catégories",
+            name = tr("categories"),
             value = value
         )
 

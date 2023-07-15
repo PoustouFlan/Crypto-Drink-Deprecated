@@ -1,0 +1,50 @@
+# crypto_drink.py
+connexion log: "Connecté en tant que {username}"
+sync complete: "Synchronisation des commandes slash terminée"
+command synchronized: "{count} commande{s} synchronisée{s}"
+extension loading successful: "Extension {name} chargée avec succès !"
+extension loading failed: "Le chargement de {name} a échoué!"
+
+# scoreboard.py
+scoreboard description: "Affiche le tableau des scores du serveur"
+scoreboard header: "Tableau des scores"
+
+# announce.py
+announce description: "Annonce les flags récents des membres du tableau"
+flags announced: "{count} flag{s} récent{s} annoncé{s}"
+auto update log: "Mise à jour des scores"
+updating user log: "  - Mise à jour de {username}…"
+done: "Terminé"
+new flag: "Nouveau flag !"
+level: "Niveau : {level}\n"
+rank: "Rang : #{rank} / {count}\n"
+ordinal:
+  1: "1er"
+  default: "{count}e"
+category missing: "{name} absent de la liste des catégories !"
+challenge position: "{ordinal} :triangular_flag_on_post: du scoreboard\n"
+
+# challenge.py
+challenge description: "Affiche les flaggers d'un challenge dans le serveur"
+challenge missing: "Ce challenge n'est pas présent dans la base de données."
+server flags: "{count} :triangular_flag_on_post: dans le serveur\n"
+
+# register.py
+register description: "Inscrit un utilisateur dans le tableau du serveur"
+user added: "L'utilisateur {username} a été ajouté au tableau."
+user already there: "L'utilisateur {username} est déjà présent dans le tableau."
+
+# unregister.py
+unregister description: "Désinscrit un utilisateur du tableau du serveur"
+user removed: "L'utilisateur {username} a été supprimé du tableau."
+user absent: "L'utilisateur {username} n'est pas présent dans le tableau."
+
+# user-info.py
+userinfo description: "Affiche les informations concernant un utilisateur"
+profile header: "Profil de {username}"
+website: "[Site web]({url})\n"
+cryptohacker since: "CryptoHacker depuis le {date}\n"
+stats: "Statistiques"
+last solves: "Derniers challenges résolus"
+categories: "Catégories"
+personal information: "Informations personnelles"
