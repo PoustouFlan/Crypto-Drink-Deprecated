@@ -8,7 +8,7 @@ configuration = safe_load(configuration_file.read())
 TOKEN = configuration['token']
 GUILD_ID = configuration['guild_id']
 CHANNEL_ID = configuration['channel_id']
-LANGUAGE = configuration['language']
+LANGUAGE = configuration['locale']
 tr = Translator('locales', LANGUAGE)
 
 guild_object = discord.Object(id = GUILD_ID)
