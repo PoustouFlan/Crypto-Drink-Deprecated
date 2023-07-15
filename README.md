@@ -10,8 +10,7 @@ scoreboard for [CryptoHack](https://cryptohack.org/).
 
 ## Installation
 
-First, you need to [create your own Discord bot](
-https://discordpy.readthedocs.io/en/stable/discord.html).
+First, you need to [create your own Discord bot](https://discordpy.readthedocs.io/en/stable/discord.html).
 The bot will need permissions to read messages, send messages and include
 embeds.
 It will also need the *Message Intent*.
@@ -31,9 +30,9 @@ channel_id: 1234567890123456789
 locale:     "en"
 ```
  - `token` should be your Discord Bot token
- - `guild_id` should be the `id` of your Discord server
- - `channel_id` should be the id of the channel where the flags are announced
- - `locale` should be your prefered language.
+ - `guild_id` should be [the id of your Discord server](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID)
+ - `channel_id` should be [the id of the channel](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) where the flags are announced
+ - `locale` should be your prefered language (currently available are `"en"` and `"fr"`).
 
 ### NixOS
 
