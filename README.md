@@ -1,7 +1,7 @@
 ## CryptoDrink
 
 **CryptoDrink** is a Discord bot which implements a local
-scoreboard for [https://cryptohack.org/](CryptoHack).
+scoreboard for [CryptoHack](https://cryptohack.org/).
 
  - Announces when a server member solves a challenge
  - Displays statistics about a CryptoHack user
@@ -10,8 +10,8 @@ scoreboard for [https://cryptohack.org/](CryptoHack).
 
 ## Installation
 
-First, you need to [https://discordpy.readthedocs.io/en/stable/discord.html](
-create your own Discord bot)
+First, you need to [create your own Discord bot](
+https://discordpy.readthedocs.io/en/stable/discord.html).
 The bot will need permissions to read messages, send messages and include
 embeds.
 It will also need the *Message Intent*.
