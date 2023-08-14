@@ -8,6 +8,10 @@ scoreboard for [CryptoHack](https://cryptohack.org/).
  - Local scoreboard for your server
  - List who solved a challenge in your server
 
+<img src="https://i.imgur.com/oHi62uH.png" alt="User Profile" width="200"/> <img src="https://i.imgur.com/n1pjYWs.png" alt="Scoreboard" width="200"/> <img src="https://i.imgur.com/VCkI0YU.png" alt="Flag announcement" width="200"/>
+
+
+
 ## Installation
 
 First, you need to [create your own Discord bot](https://discordpy.readthedocs.io/en/stable/discord.html).
